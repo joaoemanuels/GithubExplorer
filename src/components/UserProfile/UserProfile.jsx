@@ -1,81 +1,81 @@
+import { useState } from "react";
+import { fetchUserProfile, fetchUserRepos } from "../../services/githubApi";
+import SearchForm from "../../components/layout/Header/SearchBar";
+import ErrorMessage from "../../components/Common/ErrorMessage";
+import { formatDate } from "../../utils/format";
+import {
+	FaMapMarkerAlt,
+	FaBuilding,
+	FaLink,
+	FaCalendarAlt,
+	FaGithub,
+	FaUsers,
+	FaUserPlus,
+	FaCode,
+	FaFileCode,
+} from "react-icons/fa";
+
 import styles from "./userProfile.module.css";
 
-const RepositoriesIcon = () => (
-	<svg
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
-		<path d="M22 19a2 2 0 0 1-2.414-1.80078c-.874-.726-2.612-1.199-4.586-1.199H8c-1.974 0-3.712.473-4.586 1.199A2 2 0 0 1 2 19" />
-		<path d="M22 13a2 2 0 0 1-2.414-1.80078c-.874-.726-2.612-1.199-4.586-1.199H8c-1.974 0-3.712.473-4.586 1.199A2 2 0 0 1 2 13" />
-		<path d="M22 7c0 1.657-2.239 3-5 3-1.598 0-3.06-.754-3.95-1.901" />
-		<rect x="2" y="7" width="20" height="10" rx="2" />
-	</svg>
-);
-
-const FollowersIcon = () => (
-	<svg
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
-		<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-		<circle cx="9" cy="7" r="4" />
-		<path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-		<path d="M16 3.13a4 4 0 0 1 0 7.75" />
-	</svg>
-);
-
-const FollowingIcon = () => (
-	<svg
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
-		<path d="M12 1a11 11 0 1 0 0 22 11 11 0 0 0 0-22z" />
-		<path d="M12 5v14" />
-		<path d="M5 12h14" />
-	</svg>
-);
-
-const StarsIcon = () => (
-	<svg
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="currentColor"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
-		<polygon points="12 2 15.09 10.26 24 10.27 17.18 16.70 20.09 25 12 19.54 3.91 25 6.82 16.70 0 10.27 8.91 10.26 12 2" />
-	</svg>
-);
-
 export default function UserProfile() {
-	const userData = {
-		name: "Diego Fernandes",
-		username: "diego3g",
-		bio: "Front-end developer passionate about building amazing web experiences.",
-		location: "São Paulo, Brasil",
-		website: "https://diego3g.com",
-		joinDate: "Entrou em Jan 2020",
-		avatarUrl: "https://avatars.githubusercontent.com/u/12345678?v=4",
-		stats: {
-			repositories: 42,
-			followers: 128,
-			following: 98,
-			stars: 256,
-		},
+	const [username, setUsername] = useState("");
+	const [profile, setprofile] = useState(null);
+	const [repos, setRepos] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+
+	const handleSearch = async (e) => {
+		e.preventDefault();
+		if (!username.trim()) return;
+
+		setLoading(true);
+		setError(null);
+		setprofile(null);
+		setRepos([]);
+
+		try {
+			const [userData, reposData] = await Promise.all([
+				fetchUserProfile(username),
+				fetchUserRepos(username),
+			]);
+			setprofile(userData);
+			setRepos(reposData);
+		} catch (err) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
 	};
+
+	const hasContent = profile || repo.length > 0;
+	
+	const stats = [
+		{ icon: FaCode, label: "Repositories", value: profile?.public_repos },
+		{ icon: FaUsers, label: "Followers", value: profile?.followers },
+		{ icon: FaUserPlus, label: "Following", value: profile?.following },
+		{ icon: FaFileCode, label: "Gists", value: profile?.public_gists },
+	];
+
+	const infoItems = [
+		{
+			condition: profile?.company,
+			icon: FaBuilding,
+			label: "Company",
+			value: profile?.company,
+		},
+		{
+			condition: profile?.location,
+			icon: FaMapMarkerAlt,
+			label: "location",
+			value: profile?.location,
+		},
+		{
+			condition: profile?.blog,
+			icon: FaLink,
+			label: "Website",
+			value: profile?.blog,
+		},
+	];
 
 	return (
 		<section className={styles.profile}>

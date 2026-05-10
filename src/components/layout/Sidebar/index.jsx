@@ -1,8 +1,6 @@
 import styles from "./sidebar.module.css";
 import SidebarLink from "./SidebarLink";
 
-
-
 // Ícone de Casa
 const HomeIcon = () => (
 	<svg
