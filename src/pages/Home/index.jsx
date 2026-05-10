@@ -5,6 +5,8 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 import styles from "./home.module.css";
 
 export default function Home() {
+
+
 	return (
 		<main className={styles.container}>
 			<div className={styles.profileSection}>

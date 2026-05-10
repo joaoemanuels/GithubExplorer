@@ -1,4 +1,5 @@
 import styles from "./header.module.css";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
 	return (
@@ -9,14 +10,7 @@ export default function Header() {
 					<span className={styles.logoText}>GitHub Explorer</span>
 				</div>
 
-				<div className={styles.searchContainer}>
-					<input
-						type="text"
-						placeholder="Digite um usuário do GitHub..."
-						className={styles.searchInput}
-					/>
-					<button className={styles.searchButton}>Buscar</button>
-				</div>
+				<SearchBar/>
 
 				<button className={styles.themeToggle} title="Alternar tema">
 					🌙
