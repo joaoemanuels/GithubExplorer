@@ -6,7 +6,7 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 import styles from "./home.module.css";
 
 export default function Home() {
-	const { profile, repos, loading, error } = useOutletContext();
+	const { profile, repos, languages, loading, error } = useOutletContext();
 
 	return (
 		<main className={styles.container}>
@@ -20,7 +20,7 @@ export default function Home() {
 				</div>
 
 				<div className={styles.rightColumn}>
-					<LanguageStats repos={repos} />
+					<LanguageStats languages={languages} repos={repos} />
 					<RecentActivity repos={repos} />
 				</div>
 			</div>

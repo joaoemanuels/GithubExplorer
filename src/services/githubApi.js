@@ -1,12 +1,12 @@
 const GITHUB_API_BASE = "https://api.github.com";
 
-const handleResponse = async (ReportingObserver, errorMsg) => {
-	if (!Response.ok) {
-		if (ReportingObserver.status === 404 && errorMsg.includes("User"))
+const handleResponse = async (response, errorMsg) => {
+	if (!response.ok) {
+		if (response.status === 404 && errorMsg.includes("User"))
 			throw new Error("user not found!");
 		throw new Error(errorMsg);
 	}
-	return await Response.json();
+	return await response.json();
 };
 
 export const fetchUserProfile = async (username) => {
@@ -44,4 +44,12 @@ export const searchRepositories = async (
 export const fetchRepoDetails = async (owner, repo) => {
 	const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`);
 	return handleResponse(response, "Failed to fetch repository details!");
+};
+
+export const fetchRepoLanguages = async (owner, repo) => {
+	const response = await fetch(
+		`${GITHUB_API_BASE}/repos/${owner}/${repo}/languages`,
+	);
+
+	return handleResponse(response, "Failed to fetch repository languages!");
 };

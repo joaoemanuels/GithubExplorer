@@ -1,9 +1,10 @@
+import { formatDate } from "../../utils/format";
+
 import {
 	FaMapMarkerAlt,
 	FaBuilding,
 	FaLink,
 	FaCalendarAlt,
-	FaGithub,
 	FaUsers,
 	FaUserPlus,
 	FaCode,
@@ -64,66 +65,76 @@ export default function UserProfile({ profile, error, loading }) {
 
 				<div className={styles.info}>
 					<h1 className={styles.name}>{profile.name || profile.login}</h1>
-					<p className={styles.username}>{profile?.username}</p>
-					<p className={styles.bio}>{profile.bio}</p>
+
+					<p className={styles.username}>@{profile?.login}</p>
+					{profile.bio && <p className={styles.bio}>{profile.bio}</p>}
 
 					<div className={styles.details}>
+						{infoItems
+							.filter((item) => item.condition)
+							.map((item) => {
+								const Icon = item.icon;
+
+								return (
+									<div key={item.label} className={styles.detail}>
+										<span className={styles.detailIcon}>
+											<Icon />
+										</span>
+
+										{item.label === "Website" ? (
+											<a
+												href={
+													item.value.startsWish("http")
+														? item.value
+														: `https://${item.value}`
+												}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{item.value}
+											</a>
+										) : (
+											<span>{item.value}</span>
+										)}
+									</div>
+								);
+							})}
+
 						<div className={styles.detail}>
-							<span className={styles.detailIcon}>📍</span>
-							<span>{profile?.location}</span>
-						</div>
-						<div className={styles.detail}>
-							<span className={styles.detailIcon}>🔗</span>
-							<a
-								href={profile?.website}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								{profile?.website}
-							</a>
-						</div>
-						<div className={styles.detail}>
-							<span className={styles.detailIcon}>📅</span>
-							<span>{profile?.joinDate}</span>
+							<span className={styles.detailIcon}>
+								<FaCalendarAlt />
+							</span>
+
+							<span>Entrou em {formatDate(profile.created_at)}</span>
 						</div>
 					</div>
 				</div>
-
-				<button className={styles.followButton}>Seguir</button>
+				<a
+					href={profile.html_url}
+					target="_blank"
+					rel="noopener noreferrer"
+					className={styles.followButton}
+				>
+					Ver Perfil
+				</a>
 			</div>
 
 			<div className={styles.statsContainer}>
-				<div className={styles.stat}>
-					<div className={styles.statIcon}>
-						<FaGithub />
-					</div>
-					<div className={styles.statValue}>{profile?.stats.repositories}</div>
-					<div className={styles.statLabel}>Repositórios</div>
-				</div>
+				{stats.map((stat) => {
+					const Icon = stat.icon;
 
-				<div className={styles.stat}>
-					<div className={styles.statIcon}>
-						<FaGithub />
-					</div>
-					<div className={styles.statValue}>{profile?.stats.followers}</div>
-					<div className={styles.statLabel}>Seguidores</div>
-				</div>
+					return (
+						<div key={stat.label} className={styles.stat}>
+							<div className={styles.statIcon}>
+								<Icon />
+							</div>
 
-				<div className={styles.stat}>
-					<div className={styles.statIcon}>
-						<FaGithub />
-					</div>
-					<div className={styles.statValue}>{profile?.stats.following}</div>
-					<div className={styles.statLabel}>Seguindo</div>
-				</div>
+							<div className={styles.statValue}>{stat.value}</div>
 
-				<div className={styles.stat}>
-					<div className={styles.statIcon}>
-						<FaCalendarAlt />
-					</div>
-					<div className={styles.statValue}>{profile?.stats.stars}</div>
-					<div className={styles.statLabel}>Stars</div>
-				</div>
+							<div className={styles.statLabel}>{stat.label}</div>
+						</div>
+					);
+				})}
 			</div>
 		</section>
 	);

@@ -1,58 +1,30 @@
-import RepositoryCard from './RepositoryCard/RepositoryCard';
-import styles from './popularRepositories.module.css';
+import { useState } from "react";
 
-export default function PopularRepositories() {
-  const repositories = [
-    {
-      id: 1,
-      name: 'github-explorer',
-      description: 'Aplicação para explorar perfis do GitHub com estatísticas e repositórios.',
-      language: 'TypeScript',
-      stars: 128,
-      forks: 32,
-      updatedAt: 'Atualizado há 2 dias'
-    },
-    {
-      id: 2,
-      name: 'dev-portfolio',
-      description: 'Meu portfólio pessoal desenvolvido com React e TailwindCSS.',
-      language: 'TypeScript',
-      stars: 96,
-      forks: 24,
-      updatedAt: 'Atualizado há 1 semana'
-    },
-    {
-      id: 3,
-      name: 'react-components',
-      description: 'Biblioteca de componentes reutilizáveis criados com React e TypeScript.',
-      language: 'TypeScript',
-      stars: 78,
-      forks: 18,
-      updatedAt: 'Atualizado há 2 semanas'
-    },
-    {
-      id: 4,
-      name: 'node-api',
-      description: 'API REST construída com Node.js, Express e MongoDB.',
-      language: 'JavaScript',
-      stars: 64,
-      forks: 12,
-      updatedAt: 'Atualizado há 3 semanas'
-    }
-  ];
+import RepositoryCard from "./RepositoryCard/RepositoryCard";
+import styles from "./popularRepositories.module.css";
 
-  return (
-    <section className={styles.section}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Repositórios Populares</h2>
-        <a href="#" className={styles.viewAll}>Ver todos</a>
-      </div>
+export default function PopularRepositories({ repos }) {
+	const [visibleRepos, setVisibleRepos] = useState(5);
 
-      <div className={styles.repositoriesList}>
-        {repositories.map(repo => (
-          <RepositoryCard key={repo.id} repository={repo} />
-        ))}
-      </div>
-    </section>
-  );
+	return (
+		<section className={styles.section}>
+			<div className={styles.header}>
+				<h2 className={styles.title}>Repositórios Populares</h2>
+				{visibleRepos < repos.length && (
+					<button
+						className={styles.viewAll}
+						onClick={() => setVisibleRepos((prev) => prev + 10)}
+					>
+						Ver mais
+					</button>
+				)}
+			</div>
+
+			<div className={styles.repositoriesList}>
+				{repos.slice(0, visibleRepos).map((repo) => (
+					<RepositoryCard key={repo.id} repository={repo} />
+				))}
+			</div>
+		</section>
+	);
 }
