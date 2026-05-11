@@ -1,8 +1,3 @@
-import { useState } from "react";
-import { fetchUserProfile, fetchUserRepos } from "../../services/githubApi";
-import SearchForm from "../../components/layout/Header/SearchBar";
-import ErrorMessage from "../../components/Common/ErrorMessage";
-import { formatDate } from "../../utils/format";
 import {
 	FaMapMarkerAlt,
 	FaBuilding,
@@ -17,38 +12,7 @@ import {
 
 import styles from "./userProfile.module.css";
 
-export default function UserProfile() {
-	const [username, setUsername] = useState("");
-	const [profile, setprofile] = useState(null);
-	const [repos, setRepos] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
-
-	const handleSearch = async (e) => {
-		e.preventDefault();
-		if (!username.trim()) return;
-
-		setLoading(true);
-		setError(null);
-		setprofile(null);
-		setRepos([]);
-
-		try {
-			const [userData, reposData] = await Promise.all([
-				fetchUserProfile(username),
-				fetchUserRepos(username),
-			]);
-			setprofile(userData);
-			setRepos(reposData);
-		} catch (err) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const hasContent = profile || repo.length > 0;
-	
+export default function UserProfile({ profile, error, loading }) {
 	const stats = [
 		{ icon: FaCode, label: "Repositories", value: profile?.public_repos },
 		{ icon: FaUsers, label: "Followers", value: profile?.followers },
@@ -77,38 +41,50 @@ export default function UserProfile() {
 		},
 	];
 
+	if (loading) {
+		return <p>Carregando...</p>;
+	}
+
+	if (error) {
+		return <p>{error}</p>;
+	}
+
+	if (!profile) {
+		return <p>Pesquise um usuário do GitHub</p>;
+	}
+
 	return (
 		<section className={styles.profile}>
 			<div className={styles.profileContent}>
 				<img
-					src={userData.avatarUrl}
-					alt={userData.name}
+					src={profile.avatar_url}
+					alt={profile.name || profile.login}
 					className={styles.avatar}
 				/>
 
 				<div className={styles.info}>
-					<h1 className={styles.name}>{userData.name}</h1>
-					<p className={styles.username}>{userData.username}</p>
-					<p className={styles.bio}>{userData.bio}</p>
+					<h1 className={styles.name}>{profile.name || profile.login}</h1>
+					<p className={styles.username}>{profile?.username}</p>
+					<p className={styles.bio}>{profile.bio}</p>
 
 					<div className={styles.details}>
 						<div className={styles.detail}>
 							<span className={styles.detailIcon}>📍</span>
-							<span>{userData.location}</span>
+							<span>{profile?.location}</span>
 						</div>
 						<div className={styles.detail}>
 							<span className={styles.detailIcon}>🔗</span>
 							<a
-								href={userData.website}
+								href={profile?.website}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								{userData.website}
+								{profile?.website}
 							</a>
 						</div>
 						<div className={styles.detail}>
 							<span className={styles.detailIcon}>📅</span>
-							<span>{userData.joinDate}</span>
+							<span>{profile?.joinDate}</span>
 						</div>
 					</div>
 				</div>
@@ -119,33 +95,33 @@ export default function UserProfile() {
 			<div className={styles.statsContainer}>
 				<div className={styles.stat}>
 					<div className={styles.statIcon}>
-						<RepositoriesIcon />
+						<FaGithub />
 					</div>
-					<div className={styles.statValue}>{userData.stats.repositories}</div>
+					<div className={styles.statValue}>{profile?.stats.repositories}</div>
 					<div className={styles.statLabel}>Repositórios</div>
 				</div>
 
 				<div className={styles.stat}>
 					<div className={styles.statIcon}>
-						<FollowersIcon />
+						<FaGithub />
 					</div>
-					<div className={styles.statValue}>{userData.stats.followers}</div>
+					<div className={styles.statValue}>{profile?.stats.followers}</div>
 					<div className={styles.statLabel}>Seguidores</div>
 				</div>
 
 				<div className={styles.stat}>
 					<div className={styles.statIcon}>
-						<FollowingIcon />
+						<FaGithub />
 					</div>
-					<div className={styles.statValue}>{userData.stats.following}</div>
+					<div className={styles.statValue}>{profile?.stats.following}</div>
 					<div className={styles.statLabel}>Seguindo</div>
 				</div>
 
 				<div className={styles.stat}>
 					<div className={styles.statIcon}>
-						<StarsIcon />
+						<FaCalendarAlt />
 					</div>
-					<div className={styles.statValue}>{userData.stats.stars}</div>
+					<div className={styles.statValue}>{profile?.stats.stars}</div>
 					<div className={styles.statLabel}>Stars</div>
 				</div>
 			</div>
