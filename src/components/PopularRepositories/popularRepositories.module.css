@@ -57,12 +57,12 @@
 }
 
 .repositoriesList::-webkit-scrollbar-thumb {
-	background: #cbd5e1;
+	background: #0f73ec;
 	border-radius: 999px;
 }
 
 .repositoriesList::-webkit-scrollbar-thumb:hover {
-	background: #94a3b8;
+	background: #61a2f1;
 }
 
 @media (max-width: 768px) {
