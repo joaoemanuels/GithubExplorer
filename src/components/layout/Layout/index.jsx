@@ -10,6 +10,7 @@ import {
 	fetchUserProfile,
 	fetchUserRepos,
 	fetchRepoLanguages,
+	fetchRepoActivity,
 } from "../../../services/githubApi";
 
 export default function Layout() {
@@ -17,6 +18,7 @@ export default function Layout() {
 	const [profile, setProfile] = useState(null);
 	const [repos, setRepos] = useState([]);
 	const [languages, setLanguages] = useState({});
+	const [activities, setActivities] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -31,15 +33,18 @@ export default function Layout() {
 		setProfile(null);
 		setRepos([]);
 		setLanguages({});
+		setActivities([]);
 
 		try {
-			const [userData, reposData] = await Promise.all([
+			const [userData, reposData, activityData] = await Promise.all([
 				fetchUserProfile(username),
 				fetchUserRepos(username),
+				fetchRepoActivity(username),
 			]);
 
 			setProfile(userData);
 			setRepos(reposData);
+			setActivities(activityData);
 
 			const topRepos = reposData.slice(0, 5);
 
@@ -90,6 +95,7 @@ export default function Layout() {
 							profile,
 							repos,
 							languages,
+							activities,
 							loading,
 							error,
 						}}

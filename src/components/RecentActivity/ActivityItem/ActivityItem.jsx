@@ -19,12 +19,12 @@ export default function ActivityItem({ activity }) {
 
 			<div className={styles.content}>
 				<p className={styles.text}>
-					<span className={styles.action}>{activity.title}</span>
+					<span className={styles.action}>{activity.actor.login}</span>
 					<a href="#" className={styles.repo}>
-						{activity.repo}
+						{activity.repo.id}
 					</a>
 				</p>
-				<span className={styles.timeAgo}>{activity.timeAgo}</span>
+				<span className={styles.timeAgo}>{activity.created_at}</span>
 			</div>
 		</div>
 	);
