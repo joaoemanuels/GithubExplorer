@@ -53,3 +53,11 @@ export const fetchRepoLanguages = async (owner, repo) => {
 
 	return handleResponse(response, "Failed to fetch repository languages!");
 };
+
+export const fetchRepoActivity = async (owner) => {
+	const response = await fetch(
+		`${GITHUB_API_BASE}/users/${owner}/events`,
+	);
+
+	return handleResponse(response, "Failed to fetch repository activity!");
+};

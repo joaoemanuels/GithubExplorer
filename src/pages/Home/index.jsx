@@ -6,24 +6,26 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 import styles from "./home.module.css";
 
 export default function Home() {
-	const { profile, repos, languages, loading, error } = useOutletContext();
+  const { profile, repos, languages, activities, loading, error } = useOutletContext();
 
-	return (
-		<main className={styles.container}>
-			<div className={styles.profileSection}>
-				<UserProfile profile={profile} loading={loading} error={error} />
-			</div>
+  return (
+    <main className={styles.container}>
+      <div className={styles.profileSection}>
+        <UserProfile profile={profile} loading={loading} error={error} />
+      </div>
 
-			<div className={styles.contentGrid}>
-				<div className={styles.leftColumn}>
-					<PopularRepositories repos={repos} />
-				</div>
+      <div className={styles.contentGrid}>
+        <div className={styles.leftColumn}>
+          <PopularRepositories repos={repos} />
+        </div>
 
-				<div className={styles.rightColumn}>
-					<LanguageStats languages={languages} repos={repos} />
-					<RecentActivity repos={repos} />
-				</div>
-			</div>
-		</main>
-	);
+        <div className={styles.rightColumn}>
+          <LanguageStats languages={languages} repos={repos} />
+        </div>
+      </div>
+      <div>
+        <RecentActivity repos={repos} activities={activities} />
+      </div>
+    </main>
+  );
 }
