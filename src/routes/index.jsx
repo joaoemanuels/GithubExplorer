@@ -4,7 +4,6 @@ import Home from "../pages/Home/index.jsx";
 import Repositories from "../pages/Repositories/index.jsx";
 import Followers from "../pages/Followers/index.jsx";
 import Follow from "../pages/Follow/index.jsx";
-import Favorites from "../pages/Favorites/index.jsx";
 
 function AppRoutes() {
   return (
@@ -14,7 +13,6 @@ function AppRoutes() {
         <Route path="/repositorios" element={<Repositories />} />
         <Route path="/seguidores" element={<Followers />} />
         <Route path="/seguindo" element={<Follow />} />
-        <Route path="/favoritos" element={<Favorites />} />
       </Route>
     </Routes>
   );

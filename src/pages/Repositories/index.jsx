@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
-import PopularRepositories from "../../components/PopularRepositories/PopularRepositories";
 import styles from "./repositories.module.css";
+import PopularRepositories from "../../components/PopularRepositories";
 
 export default function Repositories() {
   const { repos } = useOutletContext();
