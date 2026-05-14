@@ -4,6 +4,11 @@ import FollowersItem from "./FollowersItem";
 
 export default function FollowersProfile({ followers }) {
   const [visibleRepos, setVisibleRepos] = useState(10);
+  const hasMore = visibleRepos < followers.length;
+
+  const handleLoadMore = () => {
+    setVisibleRepos((prev) => prev + 10);
+  };
 
   return (
     <section className={styles.section}>
@@ -15,10 +20,11 @@ export default function FollowersProfile({ followers }) {
         ))}
       </div>
 
-      {visibleRepos < followers.length && (
+      {hasMore && (
         <button
           className={styles.viewAll}
-          onClick={() => setVisibleRepos((prev) => prev + 10)}
+          onClick={handleLoadMore}
+          aria-label={`Carregar mais 10 pessoas. Showing ${visibleRepos} of ${followers.length}`}
         >
           Ver mais
         </button>

@@ -1,53 +1,30 @@
 import styles from "./following-item.module.css";
 
 export default function FollowingItem({ user }) {
-  const getFollowingIcon = (type) => {
-    const icons = {
-      repository_created: "📂",
-      push: "📤",
-      issue_created: "⚠️",
-      pull_request: "🔀",
-      star: "⭐",
-      fork: "🍴",
-    };
-    return icons[type] || "📌";
-  };
-
   const formatUserLogin = (login) => {
-    return login?.charAt(0).toUpperCase() + login?.slice(1) || "Unknown";
-  };
+    if (!login) return "Unknown";
 
-  const getTypeLabel = (type) => {
-    const labels = {
-      repository_created: "Repository created",
-      push: "Pushed code",
-      issue_created: "Issue created",
-      pull_request: "Pull request",
-      star: "Starred",
-      fork: "Forked",
-    };
-    return labels[type] || "Activity";
+    return login.charAt(0).toUpperCase() + login.slice(1);
   };
 
   return (
     <div className={styles.item}>
-      <div className={styles.icon}>{getFollowingIcon(user.type)}</div>
+      <img src={user.avatar_url} alt={user.login} className={styles.avatar} />
 
       <div className={styles.content}>
         <p className={styles.text}>
-          <span className={styles.action}>{formatUserLogin(user.login)}</span>
-          {user.repos_url && (
-            <a
-              href={user.repos_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.repo}
-            >
-              {user.repos_url.split("/").pop() || "Repository"}
-            </a>
-          )}
+          <span className={styles.username}>{formatUserLogin(user.login)}</span>
         </p>
-        <span className={styles.timeAgo}>{getTypeLabel(user.type)}</span>
+        <a
+          href={user.html_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.profileLink}
+        >
+          Ver perfil
+        </a>
+
+        <span className={styles.userType}>{user.type || "User"}</span>
       </div>
     </div>
   );

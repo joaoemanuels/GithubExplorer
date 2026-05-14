@@ -107,12 +107,6 @@ export default function Sidebar() {
       label: "Seguindo",
       to: "/seguindo",
     },
-    {
-      id: 5,
-      icon: <StarIcon />,
-      label: "Favoritos",
-      to: "/favoritos",
-    },
   ];
 
   return (
