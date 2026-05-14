@@ -1,9 +1,9 @@
 import { useOutletContext } from "react-router-dom";
-import LanguageStats from "../../components/LanguageStats/LanguageStats";
-import PopularRepositories from "../../components/PopularRepositories/PopularRepositories";
-import RecentActivity from "../../components/RecentActivity/RecentActivity";
-import UserProfile from "../../components/UserProfile/UserProfile";
 import styles from "./home.module.css";
+import UserProfile from "../../components/UserProfile";
+import PopularRepositories from "../../components/PopularRepositories";
+import LanguageStats from "../../components/LanguageStats";
+import RecentActivity from "../../components/RecentActivity";
 
 export default function Home() {
   const { profile, repos, languages, activities, loading, error } = useOutletContext();

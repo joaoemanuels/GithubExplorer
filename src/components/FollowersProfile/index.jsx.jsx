@@ -1,6 +1,6 @@
 import { useState } from "react";
-import styles from "./followersProfile.module.css";
-import FollowersItem from "./FollowersItem/FollowingItem";
+import styles from "./followers-profile.module.css";
+import FollowersItem from "./FollowersItem";
 
 export default function FollowersProfile({ followers }) {
   const [visibleRepos, setVisibleRepos] = useState(10);

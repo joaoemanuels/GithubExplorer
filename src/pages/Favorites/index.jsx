@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
-import LanguageStats from "../../components/LanguageStats/LanguageStats";
 
 import styles from "./favorites.module.css";
+import LanguageStats from "../../components/LanguageStats";
 
 export default function Favorites() {
   const { repos, languages } = useOutletContext();

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import styles from "./followingProfile.module.css";
-import FollowingItem from "./FollowingItem/FollowingItem";
+import styles from "./following-profile.module.css";
+import FollowingItem from "./FollowingItem";
 
 export default function FollowingProfile({ following }) {
   const [visibleRepos, setVisibleRepos] = useState(10);

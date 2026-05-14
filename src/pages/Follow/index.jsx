@@ -1,7 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 
-import FollowingProfile from "../../components/FollowingProfile/followingProfile";
-
+import FollowingProfile from "../../components/FollowingProfile";
 import styles from "./follow.module.css";
 
 export default function Follow() {

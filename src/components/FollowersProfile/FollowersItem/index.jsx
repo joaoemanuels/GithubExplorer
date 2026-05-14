@@ -1,4 +1,4 @@
-import styles from "./followersItem.module.css";
+import styles from "./followers-item.module.css";
 
 export default function FollowersItem({ user }) {
   const getFollowingIcon = (type) => {
