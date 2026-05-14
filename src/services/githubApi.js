@@ -10,13 +10,23 @@ const handleResponse = async (response, errorMsg) => {
 };
 
 export const fetchUserProfile = async (username) => {
-	const response = await fetch(`${GITHUB_API_BASE}/users/${username}`);
+	const response = await fetch(`${GITHUB_API_BASE}/users/${username}`,{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		});
 	return handleResponse(response, "Failed to fetch user profile!");
 };
 
 export const fetchUserRepos = async (username, page = 1, perPage = 30) => {
 	const response = await fetch(
-		`${GITHUB_API_BASE}/users/${username}/repos?page=${page}&per_page=${perPage}&sort=updated`,
+		`${GITHUB_API_BASE}/users/${username}/repos?page=${page}&per_page=${perPage}&sort=updated`, {
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
 	);
 	return handleResponse(response, "Failed to fetch repositories!");
 };
@@ -36,19 +46,35 @@ export const searchRepositories = async (
 		order,
 	});
 	const response = await fetch(
-		`${GITHUB_API_BASE}/search/repositories?${params.toString()}`,
+		`${GITHUB_API_BASE}/search/repositories?${params.toString()}`,{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
 	);
 	return handleResponse(response, "Failed to search repositories");
 };
 
 export const fetchRepoDetails = async (owner, repo) => {
-	const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`);
+	const response = await fetch(`${GITHUB_API_BASE}/repos/${owner}/${repo}`, {
+		method: "GET",
+		headers: {
+			Accept: "application/vnd.github.v3+json",
+		},
+	});
 	return handleResponse(response, "Failed to fetch repository details!");
 };
 
 export const fetchRepoLanguages = async (owner, repo) => {
 	const response = await fetch(
 		`${GITHUB_API_BASE}/repos/${owner}/${repo}/languages`,
+		{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
 	);
 
 	return handleResponse(response, "Failed to fetch repository languages!");
@@ -56,8 +82,39 @@ export const fetchRepoLanguages = async (owner, repo) => {
 
 export const fetchRepoActivity = async (owner) => {
 	const response = await fetch(
-		`${GITHUB_API_BASE}/users/${owner}/events`,
+		`${GITHUB_API_BASE}/users/${owner}/events`,{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
 	);
 
 	return handleResponse(response, "Failed to fetch repository activity!");
+};
+
+export const fetchFollowers = async (owner) => {
+	const response = await fetch(
+		`${GITHUB_API_BASE}/users/${owner}/followers`,{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
+	);
+
+	return handleResponse(response, "Failed to fetch followers!");
+};
+
+export const fetchFollowing = async (owner) => {
+	const response = await fetch(
+		`${GITHUB_API_BASE}/users/${owner}/following`,{
+			method: "GET",
+			headers: {
+				Accept: "application/vnd.github.v3+json",
+			},
+		}
+	);
+
+	return handleResponse(response, "Failed to fetch following!");
 };
