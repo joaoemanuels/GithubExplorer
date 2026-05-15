@@ -117,7 +117,7 @@ export default function Layout() {
 
       <footer className={styles.footer}>
         <p className={styles.footerText}>
-          © 2024 GitHub Explorer. Desenvolvido com ❤️ por João
+          © 2026 GitHub Explorer. Desenvolvido por João
         </p>
       </footer>
     </div>
