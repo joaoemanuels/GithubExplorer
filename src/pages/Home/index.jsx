@@ -6,8 +6,45 @@ import LanguageStats from "../../components/LanguageStats";
 import RecentActivity from "../../components/RecentActivity";
 
 export default function Home() {
-  const { profile, repos, languages, activities, loading, error } = useOutletContext();
+  const { profile, repos, languages, activities, loading, error } =
+    useOutletContext();
+  if (loading) {
+    return (
+      <main className={styles.container}>
+        <h2>Loading...</h2>
+      </main>
+    );
+  }
 
+  if (error) {
+    return (
+      <main className={styles.container}>
+        <h2>Erro ao buscar usuário </h2>
+        <p>{error}</p>
+      </main>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <main className={styles.container_empty}>
+        <div className={styles.emptyState}>
+          <i className={`ti ti-search ${styles.icon}`}></i>
+
+          <h2>Pesquise um perfil do GitHub</h2>
+          <p>Digite um nome de usuário para ver repositórios e atividades.</p>
+
+          <div className={styles.hint}>
+            <p>
+              <i className="ti ti-bulb" style={{ marginRight: "0.5rem" }}></i>
+              Tente pesquisar por{" "}
+              <code className={styles.codeExample}>seunome</code>
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className={styles.container}>
       <div className={styles.profileSection}>
